@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Clicks</title>
+
+	<style type="text/css">
+		.caja { width: 550px; height: 345px; background-color: white; margin-bottom: 10px;
+				box-shadow: 0 7px 8px -4px rgba(0,0,0,.2),0 13px 19px 2px rgba(0,0,0,.14),0 5px 24px 4px rgba(0,0,0,.12); border-radius: 0.2rem;
+				opacity: 0; }
+		.modal-button { cursor: pointer; }
+		.modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+		.show {
+			opacity: 1;
+			transform: translate(-50%, -50%) scale(1);
+			transition: all 0.4s cubic-bezier(.25, .8, .25, 1);
+		}
+
+		.hidden {
+			transform: translate(-50%, -50%) scale(0.4);
+			transition: all 0.4s cubic-bezier(.25, .8, .25, 1);
+			opacity: 0;
+			z-index: 0;
+		}
+	</style>
+
+</head>
+<body>
+	<p class="modal-button id5">Un 5</p>
+	<button class="modal-button id1">Modal uno</button>
+	<button class="modal-button id2">Modal dos</button>
+	<button class="modal-button id3">Modal tres</button>
+
+	<div id="id1" class="modal caja hidden" onload="console.log('Hola')" onclick="showModal('id1');">Caja uno</div>
+	<div id="id2" class="modal caja hidden">Caja dos</div>
+	<div id="id3" class="modal caja hidden">Caja tres</div>
+	<div id="id5" class="modal caja hidden">Caja 5</div>
+
+	<div id="momantai-modal"></div>
+
+	
+	<script type="text/javascript">
+		var c = document.getElementsByClassName('modal-button')
+
+		function showModal(id_modal) {
+			/*
+				Función que muestra y oculta una ventana modal, proporcionando el identificador de la ventada la función agregara la clase hidden para ocultar y eliminara la clase show y así en viceversa según sea el caso. 
+			*/
+			var el = document.getElementById(id_modal)
+			el.classList.toggle('hidden')
+			el.classList.toggle('show')
+		}
+
+		for (var i = 0, j = c.length; i < j; i++) {
+			c[i].onclick = function() {
+				var id_modal = this.classList[this.classList.length - 1]
+				var el = document.getElementById(id_modal)
+				el.classList.toggle('hidden')
+				el.classList.toggle('show')
+			}
+		}
+
+		function m_createAlert(Valor) {
+			var el = document.querySelector('#momantai-modal');
+
+			el.insertAdjacentHTML('afterbegin',`
+				<div class="modal caja show" onclick="showModal(this)">
+					<p>Hola</p>
+					<input type="button" value="Aceptar" onclick="m_closeAlert(this)">
+				</div>
+			`);
+		}
+
+		function m_closeAlert(el) {
+			console.log(el.parentNode)
+			el.parentNode.remove()
+		}
+	</script>
+</body>
+</html>
